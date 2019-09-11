@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+service CNCMill {
+    rpc GoTo (Position) returns (Response) {}
+}
+
+message Position {
+    int32 x = 1;
+    int32 y = 2;
+}
+
+message Response {
+    bool succeeded = 1;
+}
