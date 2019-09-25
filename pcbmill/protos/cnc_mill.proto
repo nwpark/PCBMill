@@ -1,5 +1,5 @@
 syntax = "proto3";
-
+package experimental;
 service CNCMill {
     rpc GoTo (Position) returns (Response) {}
 }
