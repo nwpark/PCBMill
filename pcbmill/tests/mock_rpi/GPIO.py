@@ -1,4 +1,6 @@
 from pcbmill.config.config import *
+from pcbmill.common.utils import convert_to_iterable
+from bitstring import BitArray
 
 OUT = 0
 IN = 1
@@ -8,12 +10,62 @@ FALLING = 4
 
 
 mock_pins = dict()
-mock_pin_callbacks = list()
+pin_callbacks = list()
 
 
-def add_mock_pin_callback(callback):
-    mock_pin_callbacks.append(callback)
+# Helper methods for tests
 
+def add_conditional_pin_callback(pins, callback):
+    pins = convert_to_iterable(pins)
+    pin_callbacks.append((pins, callback))
+
+
+def update_mock_pins(pins, values):
+    pins = convert_to_iterable(pins)
+    values = convert_to_iterable(values)
+    mock_pins.update(zip(pins, values))
+
+    for conditional_callback in pin_callbacks:
+        conditional_pins = conditional_callback[0]
+        callback = conditional_callback[1]
+        if set(conditional_pins).issubset(pins):
+            callback()
+
+
+def read_pin_value(pin):
+    return mock_pins.get(pin)
+
+
+def read_bus_value(bus_pins):
+    bit_str = ''.join([str(mock_pins.get(pin)) for pin in bus_pins])
+    return BitArray(bin=bit_str).int
+
+
+# Core GPIO methods
+
+def setup(pin, mode, pull_up_down=None):
+    mock_pins.update({pin:  0})
+
+
+def output(pins, values):
+    update_mock_pins(pins, values)
+
+
+def input(pin):
+    return mock_pins.get(pin)
+
+
+def wait_for_edge(pin, edge):
+    if edge == RISING:
+        expected = 1
+    else:
+        expected = 0
+    while mock_pins.get(pin) != expected:
+        pass
+    return
+
+
+# Helper methods
 
 def print_mock_pins():
     def format_mock_bus(bus_pins):
@@ -26,36 +78,3 @@ def print_mock_pins():
     pin_status += ', req: {}'.format(mock_pins.get(req_pin))
     pin_status += ', ack: {}'.format(mock_pins.get(ack_pin))
     print(pin_status)
-
-
-def update_mock_pins(pins, values):
-    if not hasattr(pins, '__iter__'):
-        pins = [pins]
-    if not hasattr(values, '__iter__'):
-        values = [values]
-    for pin, value in zip(pins, values):
-        mock_pins[pin] = value
-    for callback in mock_pin_callbacks:
-        callback(pins, values)
-
-
-def output(pins, values):
-    update_mock_pins(pins, values)
-
-
-def setup(pin, mode, pull_up_down=None):
-    mock_pins[pin] = 0
-
-
-def wait_for_edge(pin, edge):
-    if edge == RISING:
-        target = 1
-    else:
-        target = 0
-    while mock_pins.get(pin) != target:
-        pass
-    return
-
-
-def input(pin):
-    return mock_pins.get(pin)

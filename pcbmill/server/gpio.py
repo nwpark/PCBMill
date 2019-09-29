@@ -1,3 +1,4 @@
+from pcbmill.common.utils import convert_to_bit_array
 from RPi import GPIO
 
 
@@ -8,9 +9,7 @@ class DigitalOutputBus:
             GPIO.setup(pin, GPIO.OUT)
 
     def write(self, data):
-        bin_str = bin(5)[2:]
-        bin_str = '{:0>8}'.format(bin_str)
-        bit_array = list(map(lambda i: int(i), list(bin_str)))
+        bit_array = convert_to_bit_array(data, len(self.bus_pins))
         GPIO.output(self.bus_pins, bit_array)
 
 
