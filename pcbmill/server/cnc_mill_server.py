@@ -44,4 +44,5 @@ if __name__ == "__main__":
         logging.basicConfig(level=logging.INFO)
         serve()
     finally:
+        logging.warning('Service was interrupted')
         GPIO.cleanup()

@@ -1,5 +1,6 @@
 from pcbmill.common.utils import convert_to_bit_array
 from RPi import GPIO
+import logging
 
 
 class DigitalOutputBus:
@@ -16,6 +17,7 @@ class DigitalOutputBus:
 class DigitalPin:
     def __init__(self, pin):
         self.pin = pin
+        self._log = logging.getLogger('pin_{}'.format(pin))
 
     def value(self):
         return GPIO.input(self.pin)
@@ -27,9 +29,11 @@ class DigitalOutputPin(DigitalPin):
         GPIO.setup(pin, GPIO.OUT)
 
     def on(self):
+        self._log.info('Output set high')
         GPIO.output(self.pin, 1)
 
     def off(self):
+        self._log.info('Output set low')
         GPIO.output(self.pin, 0)
 
 
