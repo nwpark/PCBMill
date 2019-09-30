@@ -19,9 +19,9 @@ class FPGAInterface:
 
     def request_action(self, cmd):
         self._log.info('Requested action {}'.format(cmd))
-
         assert self.req_pin.value() == 0
-        self.ack_pin.wait_for_inactive()
+        assert self.ack_pin.value() == 0
+
         self.cmd_bus.write(cmd)
         self.req_pin.on()
         return ThreadPoolExecutor().submit(self.__wait_for_ack)
@@ -31,3 +31,4 @@ class FPGAInterface:
         self._log.info('Acknowledgement received')
 
         self.req_pin.off()
+        self.ack_pin.wait_for_inactive()
