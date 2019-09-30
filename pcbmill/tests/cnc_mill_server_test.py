@@ -1,10 +1,10 @@
-import unittest
 from pcbmill.config.config import req_pin, ack_pin, data_bus_pins, cmd_bus_pins, Command
-from pcbmill.tests.mock_rpi.GPIO import update_mock_pins, pin_callbacks, add_conditional_pin_callback, read_pin_value, read_bus_value
 from pcbmill.generated.cnc_mill_pb2 import Position
+from pcbmill.tests.mock_rpi.GPIO import update_mock_pins, pin_callbacks, add_conditional_pin_callback, read_pin_value, read_bus_value
 import logging
-import sys
 import pcbmill.tests.mock_rpi as mock__rpi
+import sys
+import unittest
 sys.modules['RPi'] = mock__rpi
 from pcbmill.server.cnc_mill_server import CNCMillServicer
 

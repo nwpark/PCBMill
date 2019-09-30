@@ -1,6 +1,5 @@
 from pcbmill.common.utils import convert_to_bit_array
 from RPi import GPIO
-import logging
 
 
 class DigitalOutputBus:

@@ -1,11 +1,11 @@
 from concurrent import futures
-from pcbmill.config.config import Command, ONE_DAY_IN_SECONDS
-from pcbmill.server import fpga_interface
-from pcbmill.generated.cnc_mill_pb2 import Response
 from google.protobuf import text_format
+from pcbmill.config.config import Command, ONE_DAY_IN_SECONDS
+from pcbmill.generated.cnc_mill_pb2 import Response
+from pcbmill.server import fpga_interface
+import grpc
 import logging
 import time
-import grpc
 import sys
 sys.path.append('../generated')
 from pcbmill.generated import cnc_mill_pb2_grpc
