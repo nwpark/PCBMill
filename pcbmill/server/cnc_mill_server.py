@@ -2,6 +2,8 @@ from concurrent import futures
 from pcbmill.config.config import Command, ONE_DAY_IN_SECONDS
 from pcbmill.server import fpga_interface
 from pcbmill.generated.cnc_mill_pb2 import Response
+from RPi import GPIO
+import logging
 import time
 import grpc
 import sys
@@ -38,4 +40,8 @@ def serve():
 
 
 if __name__ == "__main__":
-    serve()
+    try:
+        logging.basicConfig(level=logging.INFO)
+        serve()
+    finally:
+        GPIO.cleanup()

@@ -7,6 +7,7 @@ IN = 1
 PUD_DOWN = 2
 RISING = 3
 FALLING = 4
+BCM = 5
 
 
 mock_pins = dict()
@@ -43,6 +44,10 @@ def read_bus_value(bus_pins):
 
 # Core GPIO methods
 
+def setmode(mode):
+    pass
+
+
 def setup(pin, mode, pull_up_down=None):
     mock_pins.update({pin:  0})
 
@@ -63,6 +68,10 @@ def wait_for_edge(pin, edge):
     while mock_pins.get(pin) != expected:
         pass
     return
+
+
+def cleanup():
+    pass
 
 
 # Helper methods
