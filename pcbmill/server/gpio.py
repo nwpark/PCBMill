@@ -7,7 +7,7 @@ class DigitalOutputBus:
     def __init__(self, bus_pins):
         self.bus_pins = bus_pins
         for pin in bus_pins:
-            GPIO.setup(pin, GPIO.OUT)
+            GPIO.setup(pin, GPIO.OUT, initial=0)
 
     def write(self, data):
         bit_array = convert_to_bit_array(data, len(self.bus_pins))
@@ -17,7 +17,6 @@ class DigitalOutputBus:
 class DigitalPin:
     def __init__(self, pin):
         self.pin = pin
-        self._log = logging.getLogger('pin_{}'.format(pin))
 
     def value(self):
         return GPIO.input(self.pin)
@@ -26,14 +25,12 @@ class DigitalPin:
 class DigitalOutputPin(DigitalPin):
     def __init__(self, pin):
         super().__init__(pin)
-        GPIO.setup(pin, GPIO.OUT)
+        GPIO.setup(pin, GPIO.OUT, initial=0)
 
     def on(self):
-        self._log.info('Output set high')
         GPIO.output(self.pin, 1)
 
     def off(self):
-        self._log.info('Output set low')
         GPIO.output(self.pin, 0)
 
 

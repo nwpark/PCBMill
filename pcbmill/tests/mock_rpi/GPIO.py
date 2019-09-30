@@ -48,7 +48,7 @@ def setmode(mode):
     pass
 
 
-def setup(pin, mode, pull_up_down=None):
+def setup(pin, mode, initial=None, pull_up_down=None):
     mock_pins.update({pin:  0})
 
 

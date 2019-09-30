@@ -2,7 +2,7 @@ from concurrent import futures
 from pcbmill.config.config import Command, ONE_DAY_IN_SECONDS
 from pcbmill.server import fpga_interface
 from pcbmill.generated.cnc_mill_pb2 import Response
-from RPi import GPIO
+from google.protobuf import text_format
 import logging
 import time
 import grpc
@@ -15,34 +15,36 @@ class CNCMillServicer(cnc_mill_pb2_grpc.CNCMillServicer):
 
     def __init__(self):
         self.fpga = fpga_interface.FPGAInterface()
+        self._log = logging.getLogger(__name__)
 
     def GoTo(self, request, context):
-        print(request)
+        self._log.info('Received GoTo request: {{{}}}.'.format(text_format.MessageToString(request, as_one_line=True)))
 
-        self.fpga.set_data(request.x)
-        self.fpga.request_action(Command.LOAD_DATA).result()
-
-        self.fpga.set_data(request.y)
-        self.fpga.request_action(Command.LOAD_DATA).result()
-
-        self.fpga.request_action(Command.GOTO).result()
+        self.fpga.request_action(Command.LOAD_DATA, request.x).result()
+        self.fpga.request_action(Command.LOAD_DATA, request.y).result()
+        self.fpga.request_action(Command.GOTO, None).result()
         # future.add_done_callback(lambda i: print(i))
         return Response(succeeded=True)
+
+    def cleanup(self):
+        self.fpga.cleanup()
 
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    cnc_mill_pb2_grpc.add_CNCMillServicer_to_server(CNCMillServicer(), server)
-    server.add_insecure_port('[::]:50051')
-    server.start()
-    while True:
-        time.sleep(ONE_DAY_IN_SECONDS)
+    servicer = CNCMillServicer()
+    try:
+        cnc_mill_pb2_grpc.add_CNCMillServicer_to_server(servicer, server)
+        server.add_insecure_port('[::]:50051')
+        server.start()
+        logging.info('Servicer started on port 50051.')
+        while True:
+            time.sleep(ONE_DAY_IN_SECONDS)
+    finally:
+        logging.warning('Servicer killed.')
+        servicer.cleanup()
 
 
 if __name__ == "__main__":
-    try:
-        logging.basicConfig(level=logging.INFO)
-        serve()
-    finally:
-        logging.warning('Service was interrupted')
-        GPIO.cleanup()
+    logging.basicConfig(level=logging.INFO)
+    serve()

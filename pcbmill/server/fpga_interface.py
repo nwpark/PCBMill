@@ -14,21 +14,25 @@ class FPGAInterface:
         self.ack_pin = DigitalInputPin(ack_pin)
         self._log = logging.getLogger(__name__)
 
-    def set_data(self, data):
-        self.data_bus.write(data)
-
-    def request_action(self, cmd):
-        self._log.info('Requested action {}'.format(cmd))
+    def request_action(self, cmd, data):
+        self._log.info("Requested action '{}' with data '{}'.".format(cmd, data))
         assert self.req_pin.value() == 0
         assert self.ack_pin.value() == 0
 
+        if data is not None:
+            self.data_bus.write(data)
+
         self.cmd_bus.write(cmd)
+
         self.req_pin.on()
         return ThreadPoolExecutor().submit(self.__wait_for_ack)
 
+    def cleanup(self):
+        GPIO.cleanup()
+
     def __wait_for_ack(self):
         self.ack_pin.wait_for_active()
-        self._log.info('Acknowledgement received')
+        self._log.info('Acknowledgement received.')
 
         self.req_pin.off()
         self.ack_pin.wait_for_inactive()
