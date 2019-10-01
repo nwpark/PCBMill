@@ -1,8 +1,8 @@
-from pcbmill.config.config import req_pin, ack_pin, data_bus_pins, cmd_bus_pins, Command
-from pcbmill.generated.cnc_mill_pb2 import Position
-from pcbmill.tests.mock_rpi.GPIO import update_mock_pins, pin_callbacks, add_conditional_pin_callback, read_pin_value, read_bus_value
+from pcbmill.config.config import req_pin, ack_pin, data_bus_pins, cmd_bus_pins, log_format, log_datefmt
+from pcbmill.generated.cnc_mill_pb2 import Position, Command
+from pcbmill.tests.server.mock_rpi.GPIO import update_mock_pins, pin_callbacks, add_conditional_pin_callback, read_pin_value, read_bus_value
 import logging
-import pcbmill.tests.mock_rpi as mock__rpi
+import pcbmill.tests.server.mock_rpi as mock__rpi
 import sys
 import unittest
 sys.modules['RPi'] = mock__rpi
@@ -12,9 +12,7 @@ from pcbmill.server.cnc_mill_server import CNCMillServicer
 class TestCNCMillServicer(unittest.TestCase):
 
     def setUp(self):
-        logging.basicConfig(level=logging.INFO,
-                            format='%(asctime)s.%(msecs)03d [%(name)s] [%(levelname)s] %(message)s',
-                            datefmt='%H:%M:%S')
+        logging.basicConfig(level=logging.INFO, format=log_format, datefmt=log_datefmt)
         self.cnc_mill_servicer = CNCMillServicer()
         pin_callbacks.clear()
         self.recorded_requests = list()

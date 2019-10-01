@@ -4,21 +4,21 @@ from RPi import GPIO
 
 class DigitalOutputBus:
     def __init__(self, bus_pins):
-        self.bus_pins = bus_pins
+        self._bus_pins = bus_pins
         for pin in bus_pins:
             GPIO.setup(pin, GPIO.OUT, initial=0)
 
     def write(self, data):
-        bit_array = convert_to_bit_array(data, len(self.bus_pins))
-        GPIO.output(self.bus_pins, bit_array)
+        bit_array = convert_to_bit_array(data, len(self._bus_pins))
+        GPIO.output(self._bus_pins, bit_array)
 
 
 class DigitalPin:
     def __init__(self, pin):
-        self.pin = pin
+        self._pin = pin
 
     def value(self):
-        return GPIO.input(self.pin)
+        return GPIO.input(self._pin)
 
 
 class DigitalOutputPin(DigitalPin):
@@ -27,10 +27,10 @@ class DigitalOutputPin(DigitalPin):
         GPIO.setup(pin, GPIO.OUT, initial=0)
 
     def on(self):
-        GPIO.output(self.pin, 1)
+        GPIO.output(self._pin, 1)
 
     def off(self):
-        GPIO.output(self.pin, 0)
+        GPIO.output(self._pin, 0)
 
 
 class DigitalInputPin(DigitalPin):
@@ -40,8 +40,8 @@ class DigitalInputPin(DigitalPin):
 
     def wait_for_active(self):
         if self.value() != 1:
-            GPIO.wait_for_edge(self.pin, GPIO.RISING)
+            GPIO.wait_for_edge(self._pin, GPIO.RISING)
 
     def wait_for_inactive(self):
         if self.value() != 0:
-            GPIO.wait_for_edge(self.pin, GPIO.FALLING)
+            GPIO.wait_for_edge(self._pin, GPIO.FALLING)

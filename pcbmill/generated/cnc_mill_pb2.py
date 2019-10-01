@@ -4,6 +4,7 @@
 
 import sys
 _b=sys.version_info[0]<3 and (lambda x:x) or (lambda x:x.encode('latin1'))
+from google.protobuf.internal import enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
@@ -20,9 +21,34 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0e\x63nc_mill.proto\" \n\x08Position\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\"\x1d\n\x08Response\x12\x11\n\tsucceeded\x18\x01 \x01(\x08\x32)\n\x07\x43NCMill\x12\x1e\n\x04GoTo\x12\t.Position\x1a\t.Response\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\x0e\x63nc_mill.proto\" \n\x08Position\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\"\x1d\n\x08Response\x12\x11\n\tsucceeded\x18\x01 \x01(\x08*\"\n\x07\x43ommand\x12\r\n\tLOAD_DATA\x10\x00\x12\x08\n\x04GOTO\x10\x01\x32)\n\x07\x43NCMill\x12\x1e\n\x04GoTo\x12\t.Position\x1a\t.Response\"\x00\x62\x06proto3')
 )
 
+_COMMAND = _descriptor.EnumDescriptor(
+  name='Command',
+  full_name='Command',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='LOAD_DATA', index=0, number=0,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='GOTO', index=1, number=1,
+      serialized_options=None,
+      type=None),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=83,
+  serialized_end=117,
+)
+_sym_db.RegisterEnumDescriptor(_COMMAND)
+
+Command = enum_type_wrapper.EnumTypeWrapper(_COMMAND)
+LOAD_DATA = 0
+GOTO = 1
 
 
 
@@ -96,6 +122,7 @@ _RESPONSE = _descriptor.Descriptor(
 
 DESCRIPTOR.message_types_by_name['Position'] = _POSITION
 DESCRIPTOR.message_types_by_name['Response'] = _RESPONSE
+DESCRIPTOR.enum_types_by_name['Command'] = _COMMAND
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Position = _reflection.GeneratedProtocolMessageType('Position', (_message.Message,), {
@@ -120,8 +147,8 @@ _CNCMILL = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=83,
-  serialized_end=124,
+  serialized_start=119,
+  serialized_end=160,
   methods=[
   _descriptor.MethodDescriptor(
     name='GoTo',
