@@ -14,10 +14,10 @@ class FPGAInterface:
         self.ack_pin = DigitalInputPin(ack_pin)
         self._log = logging.getLogger(__name__)
 
-    def request_action(self, cmd, data):
+    def request_action(self, cmd, data=None):
         self._log.info("Requested action '{}' with data '{}'.".format(cmd, data))
-        assert self.req_pin.value() == 0
-        assert self.ack_pin.value() == 0
+        assert self.req_pin.value() == 0, 'Request was made but req was already high.'
+        assert self.ack_pin.value() == 0, 'Request was made but ack was already high.'
 
         if data is not None:
             self.data_bus.write(data)
@@ -28,11 +28,13 @@ class FPGAInterface:
         return ThreadPoolExecutor().submit(self.__wait_for_ack)
 
     def cleanup(self):
+        self._log.info('Cleaning up GPIO.')
         GPIO.cleanup()
 
     def __wait_for_ack(self):
+        self._log.info('Waiting for ack...')
         self.ack_pin.wait_for_active()
-        self._log.info('Acknowledgement received.')
+        self._log.info('Ack received.')
 
         self.req_pin.off()
         self.ack_pin.wait_for_inactive()

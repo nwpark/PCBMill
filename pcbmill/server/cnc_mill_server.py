@@ -20,29 +20,29 @@ class CNCMillServicer(cnc_mill_pb2_grpc.CNCMillServicer):
     def GoTo(self, request, context):
         self._log.info('Received GoTo request: {{{}}}.'.format(text_format.MessageToString(request, as_one_line=True)))
 
-        self.fpga.request_action(Command.LOAD_DATA, request.x).result()
-        self.fpga.request_action(Command.LOAD_DATA, request.y).result()
-        self.fpga.request_action(Command.GOTO, None).result()
+        self.fpga.request_action(Command.LOAD_DATA, data=request.x).result()
+        self.fpga.request_action(Command.LOAD_DATA, data=request.y).result()
+        self.fpga.request_action(Command.GOTO).result()
         # future.add_done_callback(lambda i: print(i))
         return Response(succeeded=True)
 
-    def cleanup(self):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self._log.critical('Servicer killed.')
         self.fpga.cleanup()
 
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    servicer = CNCMillServicer()
-    try:
+    with CNCMillServicer() as servicer:
         cnc_mill_pb2_grpc.add_CNCMillServicer_to_server(servicer, server)
         server.add_insecure_port('[::]:50051')
         server.start()
         logging.info('Servicer started on port 50051.')
         while True:
             time.sleep(ONE_DAY_IN_SECONDS)
-    finally:
-        logging.warning('Servicer killed.')
-        servicer.cleanup()
 
 
 if __name__ == "__main__":
