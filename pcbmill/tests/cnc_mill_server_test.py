@@ -12,7 +12,9 @@ from pcbmill.server.cnc_mill_server import CNCMillServicer
 class TestCNCMillServicer(unittest.TestCase):
 
     def setUp(self):
-        logging.basicConfig(level=logging.INFO)
+        logging.basicConfig(level=logging.INFO,
+                            format='%(asctime)s.%(msecs)03d [%(name)s] [%(levelname)s] %(message)s',
+                            datefmt='%H:%M:%S')
         self.cnc_mill_servicer = CNCMillServicer()
         pin_callbacks.clear()
         self.recorded_requests = list()

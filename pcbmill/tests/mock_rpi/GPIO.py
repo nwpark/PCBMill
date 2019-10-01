@@ -1,6 +1,6 @@
-from pcbmill.config.config import *
-from pcbmill.common.utils import convert_to_iterable
 from bitstring import BitArray
+from pcbmill.common.utils import convert_to_iterable
+from pcbmill.config.config import *
 
 OUT = 0
 IN = 1

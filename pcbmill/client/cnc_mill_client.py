@@ -1,7 +1,6 @@
 import grpc
 import sys
 sys.path.append('../generated')
-
 from pcbmill.generated import cnc_mill_pb2
 from pcbmill.generated import cnc_mill_pb2_grpc
 

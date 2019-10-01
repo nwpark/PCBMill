@@ -46,5 +46,7 @@ def serve():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.INFO,
+                        format='%(asctime)s.%(msecs)03d [%(name)s] [%(levelname)s] %(message)s',
+                        datefmt='%H:%M:%S')
     serve()
