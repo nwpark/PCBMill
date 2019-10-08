@@ -1,7 +1,3 @@
-import sys
-sys.path.append('../pcbmill/generated')
-sys.path.append('../pcbmill/server')
+import pcbmill.server.cnc_mill_server
 
-import server
-
-server.serve()
+cnc_mill_server.serve()

@@ -1,4 +1,4 @@
-scp -r H:\Hobbies\Pycharm\PCBMill pi@192.168.1.89:/home/pi/PCBMill
+#!/bin/bash
 
 export PYTHONPATH=$PYTHONPATH:/home/pi/PCBMill
 export PYTHONPATH=$PYTHONPATH:/home/pi/PCBMill/pcbmill/generated

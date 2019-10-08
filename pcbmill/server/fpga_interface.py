@@ -33,9 +33,10 @@ class FPGAInterface:
         GPIO.cleanup()
 
     def _wait_for_ack(self):
-        self._log.info('Waiting for ack...')
+        self._log.info('Waiting for ack.')
         self._ack_pin.wait_for_active()
-        self._log.info('Ack received.')
-
+        self._log.info('Ack received, removing request.')
         self._req_pin.off()
+
         self._ack_pin.wait_for_inactive()
+        self._log.info('Ack was removed.')
