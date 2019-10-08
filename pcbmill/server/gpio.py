@@ -39,9 +39,13 @@ class DigitalInputPin(DigitalPin):
         GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
     def wait_for_active(self):
-        if self.value() != 1:
-            GPIO.wait_for_edge(self._pin, GPIO.RISING)
+        # if self.value() != 1:
+        #     GPIO.wait_for_edge(self._pin, GPIO.RISING)
+        while self.value() != 1:
+            pass
 
     def wait_for_inactive(self):
-        if self.value() != 0:
-            GPIO.wait_for_edge(self._pin, GPIO.FALLING)
+        # if self.value() != 0:
+        #     GPIO.wait_for_edge(self._pin, GPIO.FALLING)
+        while self.value() != 0:
+            pass
