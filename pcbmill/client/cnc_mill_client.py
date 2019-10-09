@@ -13,7 +13,7 @@ def run():
     # with grpc.insecure_channel('localhost:50051') as channel:
         stub = cnc_mill_pb2_grpc.CNCMillStub(channel)
         # response = stub.GoTo(cnc_mill_pb2.Position(x=5, y=7))
-        response = stub.GoTo(cnc_mill_pb2.Position(x=-128, y=-128, z=-128))
+        response = stub.GoTo(cnc_mill_pb2.Position(x=0, y=0, z=-96))
         print(response)
 
 

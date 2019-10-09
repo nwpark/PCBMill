@@ -4,6 +4,7 @@ from pcbmill.generated.cnc_mill_pb2 import Command
 from pcbmill.server.gpio import DigitalOutputPin, DigitalInputPin, DigitalOutputBus
 from RPi import GPIO
 import logging
+import time
 
 
 class FPGAInterface:
@@ -39,4 +40,5 @@ class FPGAInterface:
         self._req_pin.off()
 
         self._ack_pin.wait_for_inactive()
+        time.sleep(0.1)
         self._log.info('Ack was removed.')

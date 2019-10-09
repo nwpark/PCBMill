@@ -1,5 +1,5 @@
-data_bus_pins = [5, 6, 13, 19, 26, 16, 20, 21]
-cmd_bus_pins = [18, 23, 24, 25]
+data_bus_pins = [21, 20, 16, 26, 19, 13, 6, 5]
+cmd_bus_pins = [25, 24, 23, 18]
 req_pin = 17
 ack_pin = 4
 
