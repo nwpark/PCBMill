@@ -40,16 +40,16 @@ class TestCNCMillServicer(unittest.TestCase):
             self.recorded_requests.append((cmd, data))
 
     def test_goto(self):
-        target = Position(x=1, y=2)
-        expected_requests = [(Command.LOAD_DATA, 1), (Command.LOAD_DATA, 2), (Command.GOTO, 2)]
+        target = Position(x=1, y=2, z=3)
+        expected_requests = [(Command.LOAD_DATA, 1), (Command.LOAD_DATA, 2), (Command.LOAD_DATA, 3), (Command.GOTO, 3)]
 
         self.cnc_mill_servicer.GoTo(target, None)
 
         self.assertEqual(self.recorded_requests, expected_requests)
 
     def test_goto_2(self):
-        target = Position(x=3, y=7)
-        expected_requests = [(Command.LOAD_DATA, 3), (Command.LOAD_DATA, 7), (Command.GOTO, 7)]
+        target = Position(x=3, y=7, z=5)
+        expected_requests = [(Command.LOAD_DATA, 3), (Command.LOAD_DATA, 7), (Command.LOAD_DATA, 5), (Command.GOTO, 5)]
 
         self.cnc_mill_servicer.GoTo(target, None)
 

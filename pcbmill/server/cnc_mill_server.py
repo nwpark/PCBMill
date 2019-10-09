@@ -22,6 +22,7 @@ class CNCMillServicer(cnc_mill_pb2_grpc.CNCMillServicer):
 
         self._fpga_interface.request_action(Command.LOAD_DATA, data=request.x).result()
         self._fpga_interface.request_action(Command.LOAD_DATA, data=request.y).result()
+        self._fpga_interface.request_action(Command.LOAD_DATA, data=request.z).result()
         self._fpga_interface.request_action(Command.GOTO).result()
         # future.add_done_callback(lambda i: print(i))
         return Response(succeeded=True)

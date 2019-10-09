@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0e\x63nc_mill.proto\" \n\x08Position\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\"\x1d\n\x08Response\x12\x11\n\tsucceeded\x18\x01 \x01(\x08*\"\n\x07\x43ommand\x12\r\n\tLOAD_DATA\x10\x00\x12\x08\n\x04GOTO\x10\x01\x32)\n\x07\x43NCMill\x12\x1e\n\x04GoTo\x12\t.Position\x1a\t.Response\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\x0e\x63nc_mill.proto\"+\n\x08Position\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\x12\t\n\x01z\x18\x03 \x01(\x05\"\x1d\n\x08Response\x12\x11\n\tsucceeded\x18\x01 \x01(\x08*\"\n\x07\x43ommand\x12\r\n\tLOAD_DATA\x10\x00\x12\x08\n\x04GOTO\x10\x01\x32)\n\x07\x43NCMill\x12\x1e\n\x04GoTo\x12\t.Position\x1a\t.Response\"\x00\x62\x06proto3')
 )
 
 _COMMAND = _descriptor.EnumDescriptor(
@@ -41,8 +41,8 @@ _COMMAND = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=83,
-  serialized_end=117,
+  serialized_start=94,
+  serialized_end=128,
 )
 _sym_db.RegisterEnumDescriptor(_COMMAND)
 
@@ -73,6 +73,13 @@ _POSITION = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='z', full_name='Position.z', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -86,7 +93,7 @@ _POSITION = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=18,
-  serialized_end=50,
+  serialized_end=61,
 )
 
 
@@ -116,8 +123,8 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=52,
-  serialized_end=81,
+  serialized_start=63,
+  serialized_end=92,
 )
 
 DESCRIPTOR.message_types_by_name['Position'] = _POSITION
@@ -147,8 +154,8 @@ _CNCMILL = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=119,
-  serialized_end=160,
+  serialized_start=130,
+  serialized_end=171,
   methods=[
   _descriptor.MethodDescriptor(
     name='GoTo',
