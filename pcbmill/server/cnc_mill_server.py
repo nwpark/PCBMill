@@ -1,5 +1,6 @@
 from concurrent import futures
 from google.protobuf import text_format
+from pcbmill.common.utils import convert_to_bit_array
 from pcbmill.config.config import ONE_DAY_IN_SECONDS, log_format, log_datefmt
 from pcbmill.generated.cnc_mill_pb2 import Response, Command
 from pcbmill.server import fpga_interface
@@ -20,12 +21,17 @@ class CNCMillServicer(cnc_mill_pb2_grpc.CNCMillServicer):
     def GoTo(self, request, context):
         self._log.info('Received GoTo request: {{{}}}.'.format(text_format.MessageToString(request, as_one_line=True)))
 
-        self._fpga_interface.request_action(Command.LOAD_DATA, data=request.x).result()
-        self._fpga_interface.request_action(Command.LOAD_DATA, data=request.y).result()
-        self._fpga_interface.request_action(Command.LOAD_DATA, data=request.z).result()
+        self._load_data(request.x)
+        self._load_data(request.y)
+        self._load_data(request.z)
         self._fpga_interface.request_action(Command.GOTO).result()
         # future.add_done_callback(lambda i: print(i))
         return Response(succeeded=True)
+
+    def _load_data(self, data):
+        for i in range(0, 4):
+            byte = (data >> i * 8) & 255
+            self._fpga_interface.request_action(Command.LOAD_DATA, data=byte).result()
 
     def __enter__(self):
         return self

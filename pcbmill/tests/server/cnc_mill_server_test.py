@@ -27,11 +27,12 @@ class TestCNCMillServicer(unittest.TestCase):
 
     def assert_valid_req(self):
         req_pin_val = read_pin_value(req_pin)
-        self.assertEqual(read_pin_value(ack_pin), int(not req_pin_val))
+        expected_ack_val = int(not req_pin_val)
+        self.assertEqual(expected_ack_val, read_pin_value(ack_pin))
 
     def assert_valid_ack(self):
-        ack_pin_val = read_pin_value(ack_pin)
-        self.assertEqual(read_pin_value(req_pin), ack_pin_val)
+        expected_req_val = read_pin_value(ack_pin)
+        self.assertEqual(expected_req_val, read_pin_value(req_pin))
 
     def record_request(self):
         if read_pin_value(req_pin) == 1:
@@ -41,19 +42,45 @@ class TestCNCMillServicer(unittest.TestCase):
 
     def test_goto(self):
         target = Position(x=1, y=2, z=3)
-        expected_requests = [(Command.LOAD_DATA, 1), (Command.LOAD_DATA, 2), (Command.LOAD_DATA, 3), (Command.GOTO, 3)]
+        expected_requests = [
+            (Command.LOAD_DATA, 1),
+            (Command.LOAD_DATA, 0),
+            (Command.LOAD_DATA, 0),
+            (Command.LOAD_DATA, 0),
+            (Command.LOAD_DATA, 2),
+            (Command.LOAD_DATA, 0),
+            (Command.LOAD_DATA, 0),
+            (Command.LOAD_DATA, 0),
+            (Command.LOAD_DATA, 3),
+            (Command.LOAD_DATA, 0),
+            (Command.LOAD_DATA, 0),
+            (Command.LOAD_DATA, 0),
+            (Command.GOTO, 0)
+        ]
 
         self.cnc_mill_servicer.GoTo(target, None)
-
-        self.assertEqual(self.recorded_requests, expected_requests)
+        self.assertEqual(expected_requests, self.recorded_requests)
 
     def test_goto_2(self):
         target = Position(x=3, y=7, z=5)
-        expected_requests = [(Command.LOAD_DATA, 3), (Command.LOAD_DATA, 7), (Command.LOAD_DATA, 5), (Command.GOTO, 5)]
+        expected_requests = [
+            (Command.LOAD_DATA, 3),
+            (Command.LOAD_DATA, 0),
+            (Command.LOAD_DATA, 0),
+            (Command.LOAD_DATA, 0),
+            (Command.LOAD_DATA, 7),
+            (Command.LOAD_DATA, 0),
+            (Command.LOAD_DATA, 0),
+            (Command.LOAD_DATA, 0),
+            (Command.LOAD_DATA, 5),
+            (Command.LOAD_DATA, 0),
+            (Command.LOAD_DATA, 0),
+            (Command.LOAD_DATA, 0),
+            (Command.GOTO, 0)
+        ]
 
         self.cnc_mill_servicer.GoTo(target, None)
-
-        self.assertEqual(self.recorded_requests, expected_requests)
+        self.assertEqual(expected_requests, self.recorded_requests)
 
 
 if __name__ == '__main__':

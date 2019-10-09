@@ -17,5 +17,5 @@ def convert_to_hashable(value):
 
 
 def convert_to_bit_array(data, length):
-    bit_array = BitArray(int=data, length=length)
+    bit_array = BitArray(uint=data, length=length)
     return [int(bit_array[i]) for i in range(bit_array.length)]
