@@ -1,1 +1,10 @@
 python -m grpc_tools.protoc -I../protos --python_out=. --grpc_python_out=. ../protos/cnc_mill.proto
+
+scp -r H:\Hobbies\Pycharm\PCBMill pi@192.168.1.89:/home/pi/PCBMill
+
+export PYTHONPATH=$PYTHONPATH:/home/pi/PCBMill
+export PYTHONPATH=$PYTHONPATH:/home/pi/PCBMill/pcbmill/generated
+
+# pi@192.168.1.89
+# username: pi
+# password: raspberry

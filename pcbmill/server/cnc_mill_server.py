@@ -21,14 +21,24 @@ class CNCMillServicer(cnc_mill_pb2_grpc.CNCMillServicer):
     def GoTo(self, request, context):
         self._log.info('Received GoTo request: {{{}}}.'.format(text_format.MessageToString(request, as_one_line=True)))
 
-        self._load_data(request.x)
-        self._load_data(request.y)
-        self._load_data(request.z)
+        self._load_data(request)
         self._fpga_interface.request_action(Command.GOTO).result()
         # future.add_done_callback(lambda i: print(i))
         return Response(succeeded=True)
 
-    def _load_data(self, data):
+    def Move(self, request, context):
+        self._log.info('Received Move request: {{{}}}.'.format(text_format.MessageToString(request, as_one_line=True)))
+
+        self._load_data(request)
+        self._fpga_interface.request_action(Command.MOVE).result()
+        return Response(succeeded=True)
+
+    def _load_data(self, position):
+        self._load_int32(position.x)
+        self._load_int32(position.y)
+        self._load_int32(position.z)
+
+    def _load_int32(self, data):
         for i in range(0, 4):
             byte = (data >> i * 8) & 255
             self._fpga_interface.request_action(Command.LOAD_DATA, data=byte).result()

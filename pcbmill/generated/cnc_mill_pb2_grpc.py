@@ -19,6 +19,11 @@ class CNCMillStub(object):
         request_serializer=cnc__mill__pb2.Position.SerializeToString,
         response_deserializer=cnc__mill__pb2.Response.FromString,
         )
+    self.Move = channel.unary_unary(
+        '/CNCMill/Move',
+        request_serializer=cnc__mill__pb2.Position.SerializeToString,
+        response_deserializer=cnc__mill__pb2.Response.FromString,
+        )
 
 
 class CNCMillServicer(object):
@@ -32,11 +37,23 @@ class CNCMillServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def Move(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_CNCMillServicer_to_server(servicer, server):
   rpc_method_handlers = {
       'GoTo': grpc.unary_unary_rpc_method_handler(
           servicer.GoTo,
+          request_deserializer=cnc__mill__pb2.Position.FromString,
+          response_serializer=cnc__mill__pb2.Response.SerializeToString,
+      ),
+      'Move': grpc.unary_unary_rpc_method_handler(
+          servicer.Move,
           request_deserializer=cnc__mill__pb2.Position.FromString,
           response_serializer=cnc__mill__pb2.Response.SerializeToString,
       ),

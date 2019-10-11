@@ -2,6 +2,7 @@ syntax = "proto3";
 
 service CNCMill {
     rpc GoTo (Position) returns (Response) {}
+    rpc Move (Position) returns (Response) {}
 }
 
 message Position {
@@ -17,4 +18,5 @@ message Response {
 enum Command {
     LOAD_DATA = 0;
     GOTO = 1;
+    MOVE = 2;
 }

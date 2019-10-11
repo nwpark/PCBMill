@@ -7,8 +7,3 @@ ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
 log_format = '%(asctime)s.%(msecs)03d [%(name)s - %(levelname)s] %(message)s'
 log_datefmt = '%H:%M:%S'
-
-
-# pi@192.168.1.89
-# username: pi
-# password: raspberry

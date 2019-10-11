@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0e\x63nc_mill.proto\"+\n\x08Position\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\x12\t\n\x01z\x18\x03 \x01(\x05\"\x1d\n\x08Response\x12\x11\n\tsucceeded\x18\x01 \x01(\x08*\"\n\x07\x43ommand\x12\r\n\tLOAD_DATA\x10\x00\x12\x08\n\x04GOTO\x10\x01\x32)\n\x07\x43NCMill\x12\x1e\n\x04GoTo\x12\t.Position\x1a\t.Response\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\x0e\x63nc_mill.proto\"+\n\x08Position\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\x12\t\n\x01z\x18\x03 \x01(\x05\"\x1d\n\x08Response\x12\x11\n\tsucceeded\x18\x01 \x01(\x08*,\n\x07\x43ommand\x12\r\n\tLOAD_DATA\x10\x00\x12\x08\n\x04GOTO\x10\x01\x12\x08\n\x04MOVE\x10\x02\x32I\n\x07\x43NCMill\x12\x1e\n\x04GoTo\x12\t.Position\x1a\t.Response\"\x00\x12\x1e\n\x04Move\x12\t.Position\x1a\t.Response\"\x00\x62\x06proto3')
 )
 
 _COMMAND = _descriptor.EnumDescriptor(
@@ -38,17 +38,22 @@ _COMMAND = _descriptor.EnumDescriptor(
       name='GOTO', index=1, number=1,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='MOVE', index=2, number=2,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
   serialized_start=94,
-  serialized_end=128,
+  serialized_end=138,
 )
 _sym_db.RegisterEnumDescriptor(_COMMAND)
 
 Command = enum_type_wrapper.EnumTypeWrapper(_COMMAND)
 LOAD_DATA = 0
 GOTO = 1
+MOVE = 2
 
 
 
@@ -154,13 +159,22 @@ _CNCMILL = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=130,
-  serialized_end=171,
+  serialized_start=140,
+  serialized_end=213,
   methods=[
   _descriptor.MethodDescriptor(
     name='GoTo',
     full_name='CNCMill.GoTo',
     index=0,
+    containing_service=None,
+    input_type=_POSITION,
+    output_type=_RESPONSE,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='Move',
+    full_name='CNCMill.Move',
+    index=1,
     containing_service=None,
     input_type=_POSITION,
     output_type=_RESPONSE,
