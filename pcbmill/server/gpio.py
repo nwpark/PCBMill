@@ -30,7 +30,6 @@ class DigitalOutputPin(DigitalPin):
     def __init__(self, pin):
         super().__init__(pin)
         GPIO.setup(pin, GPIO.OUT, initial=0)
-        GPIO.add_event_detect(pin, GPIO.BOTH, callback=self._log_event)
 
     def on(self):
         GPIO.output(self._pin, 1)
