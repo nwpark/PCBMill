@@ -18,7 +18,6 @@ class DigitalPin:
     def __init__(self, pin):
         self._pin = pin
         self._log = logging.getLogger(__name__)
-        GPIO.add_event_detect(pin, GPIO.BOTH, callback=self._log_event)
 
     def value(self):
         return GPIO.input(self._pin)
@@ -31,6 +30,7 @@ class DigitalOutputPin(DigitalPin):
     def __init__(self, pin):
         super().__init__(pin)
         GPIO.setup(pin, GPIO.OUT, initial=0)
+        GPIO.add_event_detect(pin, GPIO.BOTH, callback=self._log_event)
 
     def on(self):
         GPIO.output(self._pin, 1)
@@ -43,6 +43,7 @@ class DigitalInputPin(DigitalPin):
     def __init__(self, pin):
         super().__init__(pin)
         GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.add_event_detect(pin, GPIO.BOTH, callback=self._log_event)
 
     def wait_for_active(self):
         # if self.value() != 1:
