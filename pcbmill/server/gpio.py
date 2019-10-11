@@ -1,5 +1,6 @@
 from pcbmill.common.utils import convert_to_bit_array
 from RPi import GPIO
+import logging
 
 
 class DigitalOutputBus:
@@ -16,9 +17,14 @@ class DigitalOutputBus:
 class DigitalPin:
     def __init__(self, pin):
         self._pin = pin
+        self._log = logging.getLogger(__name__)
+        GPIO.add_event_detect(pin, GPIO.BOTH, callback=self._log_event)
 
     def value(self):
         return GPIO.input(self._pin)
+
+    def _log_event(self, channel):
+        self._log.info('Event detected on channel {}. Value = {}.'.format(channel, GPIO.input(channel)))
 
 
 class DigitalOutputPin(DigitalPin):

@@ -15,7 +15,10 @@ def run():
         # response = stub.GoTo(cnc_mill_pb2.Position(x=0, y=0, z=0))
         # response = stub.GoTo(cnc_mill_pb2.Position(x=4000, y=0, z=0))
         # response = stub.GoTo(cnc_mill_pb2.Position(x=0, y=0, z=0))
-        response = stub.GoTo(cnc_mill_pb2.Position(x=2000, y=0, z=0))
+        response = stub.Move(cnc_mill_pb2.Position(x=2000, y=0, z=0))
+        response = stub.Move(cnc_mill_pb2.Position(x=-2000, y=0, z=0))
+        response = stub.Move(cnc_mill_pb2.Position(x=2000, y=0, z=0))
+        response = stub.Move(cnc_mill_pb2.Position(x=-2000, y=0, z=0))
         print(response)
 
 
