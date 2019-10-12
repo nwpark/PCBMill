@@ -40,5 +40,5 @@ class FPGAInterface:
         self._req_pin.off()
 
         self._ack_pin.wait_for_inactive()
-        time.sleep(0.1)
         self._log.info('Ack was removed.')
+        time.sleep(0.1)

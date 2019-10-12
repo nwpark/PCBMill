@@ -22,11 +22,8 @@ class DigitalPin:
     def value(self):
         return GPIO.input(self._pin)
 
-    def _log_event_rising(self, channel):
-        self._log.info('Event detected on channel {}. Rising edge. Value = {}.'.format(channel, GPIO.input(channel)))
-
-    def _log_event_falling(self, channel):
-        self._log.info('Event detected on channel {}. Falling edge. Value = {}.'.format(channel, GPIO.input(channel)))
+    def _log_event(self, channel):
+        self._log.info('Event detected on channel {}. Value = {}.'.format(channel, GPIO.input(channel)))
 
 
 class DigitalOutputPin(DigitalPin):
@@ -45,7 +42,7 @@ class DigitalInputPin(DigitalPin):
     def __init__(self, pin):
         super().__init__(pin)
         GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        GPIO.add_event_detect(pin, GPIO.RISING, callback=self._log_event_rising)
+        GPIO.add_event_detect(pin, GPIO.BOTH, callback=self._log_event)
 
     def wait_for_active(self):
         # if self.value() != 1:
