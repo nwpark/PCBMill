@@ -36,9 +36,9 @@ class FPGAInterface:
     def _wait_for_ack(self):
         self._log.info('Waiting for ack.')
         self._ack_pin.wait_for_active()
-        self._log.info('Ack received, removing request.')
+        self._log.info('Ack received, removing request. (value = {})'.format(self._ack_pin.value()))
         self._req_pin.off()
 
         self._ack_pin.wait_for_inactive()
-        self._log.info('Ack was removed.')
+        self._log.info('Ack was removed. (value = {})'.format(self._ack_pin.value()))
         time.sleep(0.1)
